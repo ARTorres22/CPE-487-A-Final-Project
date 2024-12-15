@@ -15,8 +15,7 @@ ENTITY bat_n_ball IS
         green : OUT STD_LOGIC_VECTOR (3 DOWNTO 0);
         blue : OUT STD_LOGIC_VECTOR (3 DOWNTO 0);
         data : OUT STD_LOGIC_VECTOR ( 7 downto 0);
-        game_count : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
-        
+        game_count : OUT STD_LOGIC_VECTOR(15 DOWNTO 0) -- was going to be used to count games played
     
     );
 END bat_n_ball;
@@ -25,21 +24,16 @@ ARCHITECTURE Behavioral OF bat_n_ball IS
     CONSTANT bsize : INTEGER := 8; -- ball size in pixels
     CONSTANT bat_w : INTEGER := 80; -- bat width in pixels
     CONSTANT bat_h : INTEGER := 6; -- bat height in pixels
-    -- distance ball moves each frame
     CONSTANT ball_speed : STD_LOGIC_VECTOR (10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR (6, 11);
     SIGNAL ball_on : STD_LOGIC; -- indicates whether ball is at current pixel position
     SIGNAL bat_on : STD_LOGIC; -- indicates whether bat at over current pixel position
     SIGNAL game_on : STD_LOGIC := '0'; -- indicates whether ball is in play
-    -- current ball position - intitialized to center of screen
     SIGNAL ball_x : STD_LOGIC_VECTOR(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(400, 11);
     SIGNAL ball_y : STD_LOGIC_VECTOR(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(300, 11);
-    -- bat vertical position
     CONSTANT bat_y : STD_LOGIC_VECTOR(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(500, 11);
-    -- current ball motion - initialized to (+ ball_speed) pixels/frame in both X and Y directions
     SIGNAL ball_x_motion, ball_y_motion : STD_LOGIC_VECTOR(10 DOWNTO 0) := ball_speed;
-    
     CONSTANT brickcols : INTEGER := 8; -- columns of bricks
-    CONSTANT brickrows : INTEGER := 3; -- rows of bricks
+    CONSTANT brickrows : INTEGER := 4; -- rows of bricks
     CONSTANT bricknums : INTEGER := 32;
     CONSTANT brickw : INTEGER := 100;
     CONSTANT brickh : INTEGER := 40;
@@ -108,7 +102,7 @@ BEGIN
     blue <= colorcode(3 DOWNTO 0);
 
     v_sync_sig <= v_sync;
-    j <= (conv_integer(pixel_row) / 40 * conv_integer(brickcols) + conv_integer(pixel_col)/100);
+     <= (conv_integer(pixel_row) / 40 * conv_integer(brickcols) + conv_integer(pixel_col)/100);
     colors : PROCESS (pixel_row, pixel_col) IS
     BEGIN
         IF ball_on = '1' THEN
@@ -116,7 +110,7 @@ BEGIN
         ELSIF bat_on = '1' THEN
             colorcode <= bat_color;
         ELSIF brick_on_vector > "0" THEN
-           CASE j MOD 9 IS
+           CASE  MOD 9 IS
             WHEN 0 =>
                 colorcode(11 DOWNTO 8) <= "1111"; 
                 colorcode(7 DOWNTO 4) <= "0000"; 
@@ -155,7 +149,7 @@ BEGIN
                 colorcode(3 DOWNTO 0) <= "0000"; 
             WHEN OTHERS => 
                 colorcode <= bg_color;
-                bricks <= bricks + 1;
+                --bricks <= bricks + 1;
         END CASE;
         ELSE 
             colorcode <= bg_color;
@@ -238,8 +232,8 @@ BEGIN
     
    sound_gen: tone
         PORT MAP (
-            clk => v_sync, -- Use your clock signal
-            trigger => sound_trigger
+            clk => v_sync, 
+            trigger => sound_trigger -- Was going to be used to trigger the sound
         );
     
     
@@ -318,9 +312,7 @@ BEGIN
                 ball_y_motion <= (NOT ball_speed) + 1; -- set vspeed to (- ball_speed) pixels
         END IF;
         
-        -- compute next ball vertical position
-        -- variable temp adds one more bit to calculation to fix unsigned underflow problems
-        -- when ball_y is close to zero and ball_y_motion is negative
+        
         temp := ('0' & ball_y) + (ball_y_motion(10) & ball_y_motion);
         IF game_on = '0' THEN
             ball_y <= CONV_STD_LOGIC_VECTOR(440, 11);
@@ -329,9 +321,7 @@ BEGIN
         ELSE ball_y <= temp(10 DOWNTO 0); -- 9 downto 0
         END IF;
 
-        -- compute next ball horizontal position
-        -- variable temp adds one more bit to calculation to fix unsigned underflow problems
-        -- when ball_x is close to zero and ball_x_motion is negative
+        
         temp := ('0' & ball_x) + (ball_x_motion(10) & ball_x_motion);
         IF temp(11) = '1' THEN
             ball_x <= (OTHERS => '0');
@@ -341,7 +331,5 @@ BEGIN
     
     dac_load_L <= '1' WHEN sound_trigger = '1' ELSE '0';
     dac_load_R <= '1' WHEN sound_trigger = '1' ELSE '0';
-    data_L <= ieee.numeric_std.signed(audio_out_signal); -- Convert to signed if needed
-    data_R <= ieee.numeric_std.signed(audio_out_signal);
-    -- END  Moving ball and detecting collisions
+
 END Behavioral;
