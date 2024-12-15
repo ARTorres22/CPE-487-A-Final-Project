@@ -114,7 +114,7 @@ The objective of this project is to design an FPGA-based brickbreaker game using
 These are the only files we have modified from the base files we got from the Lab GiHub
 
 ### 1. `pong.vhd`
-DESCRIPTION OF CHANGES
+The `pong.vhd` file has been mostly kept the same. A `game_count` vector was added and connected to the display through the `bat_n_ball` port map, this would have enabled the real-time tracking and visualization of the game’s progress if we had a bit more time.
 
 ### 2. `bat_n_ball.vhd`
 DESCRIPTION OF CHANGES
