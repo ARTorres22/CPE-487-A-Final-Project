@@ -128,7 +128,7 @@ These are the only files we have modified from the base files we got from the La
 - The `mball` process was extensively overhauled to integrate brick interactions, enabling ball movement logic to work seamlessly with brick collision and destruction.
 
 ### 3. `brick.vhd` and `brickmaker.vhd`
-`brickmaker.vhd` and `brick.vhd` are both brand new files that we created in order to add in bricks and place them on the screen and to handle the ball's collision with the bricks, respectively.
+`brickmaker.vhd` and `brick.vhd` are both brand new files that we created in order to add in bricks and place them on the screen and to handle the ball's collision with the bricks, respectively.\
 `brickmaker.vhd`\
 INPUT PORTS:
 - v_sync: synchronization signal for processing the screen refresh
