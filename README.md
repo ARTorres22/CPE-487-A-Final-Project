@@ -129,7 +129,7 @@ These are the only files we have modified from the base files we got from the La
 
 ### 3. `brick.vhd` and `brickmaker.vhd`
 `brickmaker.vhd` and `brick.vhd` are both brand new files that we created in order to add in bricks and place them on the screen and to handle the ball's collision with the bricks, respectively.
-`brickmaker.vhd`
+`brickmaker.vhd`\
 INPUT PORTS:
 - v_sync: synchronization signal for processing the screen refresh
 - pixel_row and pixel_col: coordinates of the pixel on the screen
@@ -160,7 +160,7 @@ PROCESSES
 - resetting bounces:
   - if once = '1', bounce signals are reset (ball_bounce_**** = '0')
 
-`brick.vhd`
+`brick.vhd`\
 INPUT PORTS
 - v_sync: synchronization signal for processing the screen refresh
 - pixel_row and pixel_col: coordinates of the pixel on the screen
