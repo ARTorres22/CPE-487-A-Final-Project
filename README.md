@@ -114,10 +114,18 @@ The objective of this project is to design an FPGA-based brickbreaker game using
 These are the only files we have modified from the base files we got from the Lab GiHub
 
 ### 1. `pong.vhd`
-The `pong.vhd` file has been mostly kept the same. A `game_count` vector was added and connected to the display through the `bat_n_ball` port map, this would have enabled the real-time tracking and visualization of the game’s progress if we had a bit more time.
+- The `pong.vhd` file has been mostly kept the same.
+- A `game_count` vector was added and connected to the display through the `bat_n_ball` port map
+- This would have enabled the real-time tracking and visualization of the game’s progress if we had a bit more time.
 
 ### 2. `bat_n_ball.vhd`
-DESCRIPTION OF CHANGES
+- A new `game_count` logic vector was added to count the number of games cleared.
+- Signals and constants (e.g., `colorcode`, `brick_on`) were introduced to manage new functionality.
+- Components for `brick` and `tone` were added, along with the necessary signals and connections to integrate them with `bat_n_ball`.
+- The color system was revamped to make it more adaptable using `colorcode`. Though initially set up for bricks to have multiple colors, a decision was made to use a uniform brick color for aesthetic reasons.
+- A `bricks` signal was added to count the number of destroyed bricks. When all bricks are destroyed, the game resets, and the `game_count` is incremented.
+- Port maps for `brick` and `tone` were included to complete connections between the modules.
+- The `mball` process was extensively overhauled to integrate brick interactions, enabling ball movement logic to work seamlessly with brick collision and destruction.
 
 ### 3. `brick.vhd` and `brickmaker.vhd`
 DESCRIPTION OF CHANGES
