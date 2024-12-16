@@ -128,7 +128,67 @@ These are the only files we have modified from the base files we got from the La
 - The `mball` process was extensively overhauled to integrate brick interactions, enabling ball movement logic to work seamlessly with brick collision and destruction.
 
 ### 3. `brick.vhd` and `brickmaker.vhd`
-DESCRIPTION OF CHANGES
+`brickmaker.vhd` and `brick.vhd` are both brand new files that we created in order to add in bricks and place them on the screen and to handle the ball's collision with the bricks, respectively.
+`brickmaker.vhd`
+INPUT PORTS:
+- v_sync: synchronization signal for processing the screen refresh
+- pixel_row and pixel_col: coordinates of the pixel on the screen
+- left_b, right_b, top_b, bottom_b: boundaries of the brick on screen
+- ball_x, ball_y: current position of the ball
+- ball_x_motion_test, ball_y_motion_test: indicators of the balls motion in x and y directions
+- serve and game_on: control signals to start and restart the game
+- ball_speed: ball speed
+OUTPUTS:
+- brick_on: indicates whether the brick is being drawn on the screen
+- ball_bounce_bottom, ball_bounce_top, ball_bounce_right, ball_bounce_left: signals to indicate the direction of ball bounces
+
+INTERNAL SIGNALS
+- brick_active: tracks whether the brick is visible and interactive
+- once: ensures collision logic is only executed once per interaction
+
+PROCESSES
+- brickdraw: determines whether the brick sould be visible (brick_on = '1') based on the current pixel coordinates and the brick boundaries. The brick is only visible if the pixel is within the brick's boundaries, and the brick active (brick_acive = '1')
+- collision: handles the logic for collisions and manages the brick's state. when serve = '1' and game_on = '0' the brick is activated and all bounce signals are cleared.
+  - hits right side: ball is near the right boundary (ball_x + 8 overlaps right_b)
+  - hits left side: ball is near the left boundary (ball_x - 8 overlaps left_b)
+  - hits bottom side: ball is near the bottom boundary (ball_y + 8 overlaps bottom_b)
+  - hits top side: ball is near the top boundary (ball_y - 8 overlaps top_b)
+- when a collision occurs:
+  - the corresponding bounce signal (ball_bounce_****) is set to 1
+  - the brick is deactivated (brick_active = '0')
+  - once is set to 1 to avoid redundant collisions
+- resetting bounces:
+  - if once = '1', bounce signals are reset (ball_bounce_**** = '0')
+
+`brick.vhd`
+INPUT PORTS
+- v_sync: synchronization signal for processing the screen refresh
+- pixel_row and pixel_col: coordinates of the pixel on the screen
+- left_b, right_b, top_b, bottom_b: boundaries of the brick on screen
+- ball_x, ball_y: current position of the ball
+- ball_x_motion_test, ball_y_motion_test: indicators of the balls motion in x and y directions
+- serve and game_on: control signals to start and restart the game
+- ball_speed: ball speed
+OUTPUTS:
+- brick_on: indicates whether the brick is being drawn on the screen
+- ball_bounce_bottom, ball_bounce_top, ball_bounce_right, ball_bounce_left: signals to indicate the direction of ball bounces
+- brick_active: tracks whether the brick is visible and interactive
+- once: ensures collision logic is only executed once per interaction
+- count: a signal we didn't end up getting to work correctly to count the destroyed bricks in order to try and trigger a refresh when all the bricks were destroyed
+
+PROCESSES
+- brickdraw: determines whether the brick sould be visible (brick_on = '1') based on the current pixel coordinates and the brick boundaries. The brick is only visible if the pixel is within the brick's boundaries, and the brick active (brick_acive = '1')
+- collision:
+  - right side: the ball overlaps the brick's right boundary
+  - left side: the ball overlaps the brick's left boundary
+  - bottom side: the ball overlaps the brick's bottom boundary and is moving downward (ball_y_motion_test > 0)
+  - top side: the ball overlaps the brick's top boundary and is moving upward (ball_y_motion_test < 0)
+  - for each collision:
+    - the corresponding bounce signal is set (ball_bounce_****) to 1
+    - the brick is deactivated (brick_active = '0')
+    - once is set to 1 to avoid redundant collisions
+  - resetting bounces:
+    - if once = '1', bounce signals are reset (ball_bounce_**** = '0')
 
 ### 4. `tone.vhd`
 DESCRIPTION OF CHANGES
