@@ -194,7 +194,8 @@ PROCESSES
 DESCRIPTION OF CHANGES
 
 ### 5. `pong.xdc`
-DESCRIPTION OF CHANGES
+- It is almost entirely the same from the source file.
+- The necessary ports for the sound generation were added.
 
 ## Summary:
 The project implements a complete brickbreaker game. It integrates components for ball movement, bat control, brick collision detection, attempted score tracking, VGA display output, and attempted sound generation. The game logic is encapsulated in modular VHDL components, which communicate with each other to create an interactive and visually engaging game. The final product demonstrates how FPGA-based design can be used for real-time game development with video output.
