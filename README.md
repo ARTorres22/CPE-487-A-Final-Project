@@ -111,7 +111,7 @@ The objective of this project is to design an FPGA-based brickbreaker game using
 
 ## Modifications:
 
-These are the only files we have modified from the base files we got from the Lab GiHub
+These are the only files we have modified from the base files we got from the Lab GitHub
 
 ### 1. `pong.vhd`
 - The `pong.vhd` file has been mostly kept the same.
@@ -191,7 +191,8 @@ PROCESSES
     - if once = '1', bounce signals are reset (ball_bounce_**** = '0')
 
 ### 4. `tone.vhd`
-DESCRIPTION OF CHANGES
+- A `trigger` STD_LOGIC was added to initiate the sound to be played.
+- An IF loop was added to play sound if `trigger` = 1
 
 ### 5. `pong.xdc`
 - It is almost entirely the same from the source file.
