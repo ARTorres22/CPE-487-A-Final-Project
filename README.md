@@ -2,7 +2,9 @@
 Authors: Adrian Torres and Angel Ordonez Retamar
 
 ## Objective:
-The objective of this project is to design an FPGA-based brickbreaker game using VHDL. The game involves controlling a bat that moves horizontally to bounce a ball, with the goal of breaking bricks arranged in a grid. The ball interacts with the bricks, and the game logic handles collisions, attempted scoring, and updating the display. The project integrates various components such as ball movement, bat control, brick collision detection, VGA display output, and attempted sound generation.
+The objective of this project is to design an FPGA-based brickbreaker game using VHDL. The game involves controlling a bat that moves horizontally to bounce a ball, with the goal of breaking bricks arranged in a grid. The ball interacts with the bricks, and the game logic handles collisions, attempted scoring, and updating the display. The project integrates various components such as ball movement, bat control, brick collision detection, VGA display output, and attempted sound generation.\
+Demo:\
+![demo](./demo.gif)
 
 ## Structure:
 
