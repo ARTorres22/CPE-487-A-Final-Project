@@ -7,6 +7,7 @@ Demo:\
 ![demo](./demo.gif)
 
 ## Structure:
+The required hardware is the Nexys-A7 board, VGA adapter, and a monitor to plug into. Obviously Vivado is needed in order to set up the project and upload to the board
 
 ### 1. **Top-Level Module: Pong (`pong.vhd`)**:
 - The `pong.vhd` file is the top-level module of the project. It integrates all other components, including `bat_n_ball.vhd`, `vga_sync.vhd`, `leddec16.vhd`, `clk_wiz_0.vhd`, and the sound generation modules (`tone.vhd`, `wail.vhd`, and `dac_if.vhd`).
