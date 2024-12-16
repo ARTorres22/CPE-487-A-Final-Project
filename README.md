@@ -15,9 +15,9 @@ The objective of this project is to design an FPGA-based brickbreaker game using
 - The ball’s position and direction are updated each clock cycle. The bat moves horizontally in response to user input.
 - Collision detection is implemented for the ball hitting the bat, the walls, and the bricks. The ball's direction changes accordingly, and bricks are removed upon being hit.
 
-### 3. Brick Collision and Display (`brick.vhd` and `brickmaker.vhd`):
+### 3. Brick Collision and Display (`brick.vhd`):
 - The `brick.vhd` component handles brick collision logic. It determines when the ball hits a brick and deactivates the brick when it is destroyed.
-- The `brickmaker.vhd` component generates and arranges the bricks on the screen. Each brick is drawn, and collision detection ensures that the ball interacts with the correct brick.
+- It also generates and arranges the bricks on the screen. Each brick is drawn, and collision detection ensures that the ball interacts with the correct brick.
 
 ### 4. VGA Display (`vga_sync.vhd`):
 - The `vga_sync.vhd` component generates the necessary horizontal and vertical synchronization signals (`hsync`, `vsync`) for the VGA display.
@@ -65,10 +65,9 @@ The objective of this project is to design an FPGA-based brickbreaker game using
 ## Process:
 
 ### 1. Create a new RTL project `brick` in Vivado Quick Start:
-- Create 12 new source files of file type VHDL:
+- Create 11 new source files of file type VHDL:
   - `bat_n_ball.vhd`
   - `brick.vhd`
-  - `brickmaker.vhd`
   - `clk_wiz_0.vhd`
   - `clk_wiz_0_clk_wiz.vhd`
   - `dac_if.vhd`
@@ -86,7 +85,6 @@ The objective of this project is to design an FPGA-based brickbreaker game using
 - In **design sources**, copy and paste the VHDL code from the following files:
    - `bat_n_ball.vhd`
   - `brick.vhd`
-  - `brickmaker.vhd`
   - `clk_wiz_0.vhd`
   - `clk_wiz_0_clk_wiz.vhd`
   - `dac_if.vhd`
@@ -127,9 +125,8 @@ These are the only files we have modified from the base files we got from the La
 - Port maps for `brick` and `tone` were included to complete connections between the modules.
 - The `mball` process was extensively overhauled to integrate brick interactions, enabling ball movement logic to work seamlessly with brick collision and destruction.
 
-### 3. `brick.vhd` and `brickmaker.vhd`
-`brickmaker.vhd` and `brick.vhd` are both brand new files that we created in order to add in bricks and place them on the screen and to handle the ball's collision with the bricks, respectively.\
-`brickmaker.vhd`\
+### 3. `brick.vhd`
+`brick.vhd` is a brand new file that we created in order to add in bricks and place them on the screen and to handle the ball's collision with the bricks.
 INPUT PORTS:
 - v_sync: synchronization signal for processing the screen refresh
 - pixel_row and pixel_col: coordinates of the pixel on the screen
